@@ -54,7 +54,7 @@ defmodule Bingo.Game do
       game.squares
       |> List.flatten()
       |> Enum.reject(&is_nil(&1.marked_by))
-      |> Enum.map(fn s -> {s.marked_by.name, s.point} end)
+      |> Enum.map(fn s -> {s.marked_by.name, s.points} end)
       |> Enum.reduce(%{}, fn {name, points}, scores ->
           Map.update(scores, name, points, &(&1 + points))
         end)
