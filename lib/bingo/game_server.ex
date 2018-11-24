@@ -44,6 +44,7 @@ defmodule Bingo.GameServer do
         [] ->
           game = Bingo.Game.new(buzzwords, size)
           :ets.insert(:games_table, {game_name, game})
+          game
 
         [{^game_name, game}] ->
           game
