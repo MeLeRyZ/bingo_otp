@@ -1,18 +1,16 @@
 defmodule Bingo do
-  @moduledoc """
-  Documentation for Bingo.
-  """
+  use Application
 
-  @doc """
-  Hello world.
+  def start(_type, _args) do
+    children = [
+      {Registry, keys: :unique, name: Bingo.GameRegistry},
+      Bingo.BuzzwordCache,
+      Bingo.GameSupervisor
+    ]
 
-  ## Examples
+    :ets.new(:games_table, [:public, :named_table])
 
-      iex> Bingo.hello()
-      :world
-
-  """
-  def hello do
-    :world
+    opts = [stategy: :one_for_one, name: Bingo.Supervisor]
+    Supervisor.start_child(childern, opts)
   end
 end
