@@ -1,4 +1,5 @@
 defmodule Bingo.GameDisplay do
+  # fully taken from original tutorial
   @moduledoc """
   Displays a textual representation of a game.
 
