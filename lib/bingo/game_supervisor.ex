@@ -11,7 +11,6 @@ defmodule Bingo.GameSupervisor do
     DynamicSupervisor.init(strategy: :one_for_one)
   end
 
-  # Starts a 'GameServer' process and supervises ot
   def start_game(game_name, size) do
     child_spec = %{
       id: GameServer,
@@ -28,5 +27,4 @@ defmodule Bingo.GameSupervisor do
     child_pid = GameServer.game_pid(game_name)
     DynamicSupervisor.terminate_child(__MODULE__, child_pid)
   end
-
 end
