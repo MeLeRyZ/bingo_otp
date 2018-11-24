@@ -1,4 +1,4 @@
-defmodule Game.Player do
+defmodule Bingo.Player do
   @enforce_keys [:name, :color]
   defstruct [:name, :color]
 

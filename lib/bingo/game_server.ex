@@ -7,7 +7,7 @@ defmodule Bingo.GameServer do
   # Client Interface
 
   def start_link(game_name, size) do
-    GenServer.start_link(__MODULE,
+    GenServer.start_link(__MODULE__,
                          {game_name, size},
                          name: via_tuple(game_name))
   end
@@ -36,7 +36,7 @@ defmodule Bingo.GameServer do
   # Server Callback #
   ###################
 
-  def init(game_name, size) do
+  def init({game_name, size}) do
     buzzwords = Bingo.BuzzwordCache.get_buzzwords()
 
     game =

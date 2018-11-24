@@ -11,6 +11,6 @@ defmodule Bingo do
     :ets.new(:games_table, [:public, :named_table])
 
     opts = [stategy: :one_for_one, name: Bingo.Supervisor]
-    Supervisor.start_child(childern, opts)
+    Supervisor.start_link(children, opts)
   end
 end

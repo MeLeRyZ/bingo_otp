@@ -32,7 +32,7 @@ defmodule Bingo.Game do
   # Private helper f's #
   ######################
 
-  defp update_square_with_mark(game, phrase, player) do
+  defp update_squares_with_mark(game, phrase, player) do
     new_squares =
       game.squares
       |> List.flatten()
@@ -44,7 +44,7 @@ defmodule Bingo.Game do
 
   defp mark_square_having_phrase(square, phrase, player) do
     case square.phrase == phrase do
-      true  -> %Square{square | marked_by: player}
+      true -> %Square{square | marked_by: player}
       false -> square
     end
   end
@@ -56,7 +56,7 @@ defmodule Bingo.Game do
       |> Enum.reject(&is_nil(&1.marked_by))
       |> Enum.map(fn s -> {s.marked_by.name, s.point} end)
       |> Enum.reduce(%{}, fn {name, points}, scores ->
-          Map.update(scores, name, &(&1 + points))
+          Map.update(scores, name, points, &(&1 + points))
         end)
 
       %{game | scores: scores}

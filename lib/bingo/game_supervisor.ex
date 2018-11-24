@@ -4,9 +4,7 @@ defmodule Bingo.GameSupervisor do
   alias Bingo.GameServer
 
   def start_link(_arg) do
-    DynamicSupervisor.start_link(__MODULE__,
-                                :ok,
-                                name: __MODULE__)
+    DynamicSupervisor.start_link(__MODULE__, :ok, name: __MODULE__)
   end
 
   def init(:ok) do
@@ -28,7 +26,7 @@ defmodule Bingo.GameSupervisor do
     :ets.delete(:games_table, game_name)
 
     child_pid = GameServer.game_pid(game_name)
-    DynamicSupervisor.terminate(__MODULE__, child_pid)
+    DynamicSupervisor.terminate_child(__MODULE__, child_pid)
   end
 
 end
