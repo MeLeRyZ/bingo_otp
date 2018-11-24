@@ -54,4 +54,44 @@ defmodule Bingo.GameServer do
     {:ok, game, @timeout}
   end
 
+  def handle_call(:summary, _from, game) do
+    {:reply, summarize(game), game, @timeout}
+  end
+
+  def handle_call({:mark, phrase, player}, _from, game) do
+    new_game = Bingo.Game.mark(game, phrase, player)
+
+    :ets.insert(:games_table, {my_game_name(), new_game})
+
+    {:reply, summarize(new_game), new_game, @timeout}
+  end
+
+  # helper func for :mark
+  def summarize(game) do
+    %{
+      squares: game.squares,
+      scores: game.scores,
+      winner: game.winner
+    }
+  end
+
+  def handle_info(:timeout, game) do
+    {:stop, {:shutdown, :timeout}, game}
+  end
+
+  def terminate({:shutdown, :timeout}, _game) do
+    :ets.delete(:games_table, my_game_name())
+    :ok
+  end
+
+  def terminate(_reason, _game) do
+    :ok
+  end
+
+  # Private funcs
+
+  defp my_game_name do
+    Registry.keys(Bingo.GameRegistry, self()) |> List.first
+  end
+
 end
