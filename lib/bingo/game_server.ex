@@ -22,6 +22,7 @@ defmodule Bingo.GameServer do
 
   # returns tuple used to register and lookup a g_s process by name
   def via_tuple(game_name) do
+    # uses built-in Registry module | Modules are atoms too
     {:via, Registry, {Bingo.GameRegistry, game_name}}
   end
 
